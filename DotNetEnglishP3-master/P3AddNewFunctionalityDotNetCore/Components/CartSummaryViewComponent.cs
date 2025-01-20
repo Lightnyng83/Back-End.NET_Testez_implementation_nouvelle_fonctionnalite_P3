@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using P3AddNewFunctionalityDotNetCore.Models;
+using P3Core.Models;
 
-namespace P3AddNewFunctionalityDotNetCore.Components
+namespace P3Core.Components
 {
     public class CartSummaryViewComponent : ViewComponent
     {

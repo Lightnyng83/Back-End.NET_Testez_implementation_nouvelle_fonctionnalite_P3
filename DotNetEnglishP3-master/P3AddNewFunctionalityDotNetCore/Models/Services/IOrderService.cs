@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using P3Core.Models.Entities;
+using P3Core.Models.ViewModels;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using P3AddNewFunctionalityDotNetCore.Models.Entities;
-using P3AddNewFunctionalityDotNetCore.Models.ViewModels;
 
-namespace P3AddNewFunctionalityDotNetCore.Models.Services
+namespace P3Core.Models.Services
 {
     public interface IOrderService
     {

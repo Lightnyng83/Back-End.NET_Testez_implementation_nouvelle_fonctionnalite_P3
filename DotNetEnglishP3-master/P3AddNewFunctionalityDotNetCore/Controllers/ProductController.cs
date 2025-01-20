@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using P3AddNewFunctionalityDotNetCore.Models.Services;
-using P3AddNewFunctionalityDotNetCore.Models.ViewModels;
+using P3Core.Models.Services;
+using P3Core.Models.ViewModels;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace P3AddNewFunctionalityDotNetCore.Controllers
+namespace P3Core.Controllers
 {
     public class ProductController : Controller
     {
@@ -40,7 +40,7 @@ namespace P3AddNewFunctionalityDotNetCore.Controllers
         [HttpPost]
         public IActionResult Create(ProductViewModel product)
         {
-            List<string> modelErrors = _productService.CheckProductModelErrors(product);           
+            List<string> modelErrors = _productService.CheckProductModelErrors(product);
 
             foreach (string error in modelErrors)
             {
@@ -65,5 +65,7 @@ namespace P3AddNewFunctionalityDotNetCore.Controllers
             _productService.DeleteProduct(id);
             return RedirectToAction("Admin");
         }
+
+
     }
 }

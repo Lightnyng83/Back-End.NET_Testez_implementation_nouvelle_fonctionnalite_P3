@@ -4,7 +4,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using P3AddNewFunctionalityDotNetCore.Models;
+using P3Core.Models;
 
 namespace P3AddNewFunctionalityDotNetCore.Migrations.AppIdentityDb
 {

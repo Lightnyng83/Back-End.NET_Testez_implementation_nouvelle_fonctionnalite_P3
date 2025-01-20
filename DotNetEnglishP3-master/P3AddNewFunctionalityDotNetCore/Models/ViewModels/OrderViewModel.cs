@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-namespace P3AddNewFunctionalityDotNetCore.Models.ViewModels
+namespace P3Core.Models.ViewModels
 {
     public class OrderViewModel
     {

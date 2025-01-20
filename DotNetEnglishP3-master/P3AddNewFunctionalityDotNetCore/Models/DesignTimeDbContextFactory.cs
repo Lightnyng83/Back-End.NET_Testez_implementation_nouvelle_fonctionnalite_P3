@@ -1,9 +1,9 @@
-﻿using System.IO;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
+using System.IO;
 
-namespace P3AddNewFunctionalityDotNetCore.Models
+namespace P3Core.Models
 {
     public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<AppIdentityDbContext>
     {

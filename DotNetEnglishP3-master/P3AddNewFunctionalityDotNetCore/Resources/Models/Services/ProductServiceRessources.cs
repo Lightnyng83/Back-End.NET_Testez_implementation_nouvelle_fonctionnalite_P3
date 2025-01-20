@@ -1,9 +1,8 @@
-﻿using System;
-using System.Resources;
+﻿using System.Globalization;
 using System.Reflection;
-using System.Globalization;
+using System.Resources;
 
-namespace P3AddNewFunctionalityDotNetCore.Resources.Models.Services
+namespace P3Core.Resources.Models.Services
 {
     public static class ProductService
     {

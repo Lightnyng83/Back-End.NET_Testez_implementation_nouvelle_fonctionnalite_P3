@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using System.Threading.Tasks;
 
-namespace P3AddNewFunctionalityDotNetCore.Data
+namespace P3Core.Data
 {
     public static class IdentitySeedData
     {

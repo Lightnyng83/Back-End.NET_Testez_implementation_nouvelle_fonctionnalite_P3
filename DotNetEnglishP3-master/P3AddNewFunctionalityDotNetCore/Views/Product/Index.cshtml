@@ -1,5 +1,6 @@
-﻿@using P3AddNewFunctionalityDotNetCore.Models.ViewModels
-@model IEnumerable<P3AddNewFunctionalityDotNetCore.Models.ViewModels.ProductViewModel>
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using P3Core.Models.ViewModels
+@model IEnumerable<P3Core.Models.ViewModels.ProductViewModel>
 @{
     ViewData["Title"] = Localizer["ProductList"];
 }
@@ -29,7 +30,7 @@
                 <tr>
                     <td>@p.Name</td>
                     <td>@p.Description</td>
-                    <td style="text-align:center">@p.Price</td>
+                    <td style="text-align:center">@p.Price €</td>
                     <td style="text-align:center">@p.Stock</td>
                     <td>
                         <form id="@p.Id" asp-action="AddToCart" asp-controller="Cart" method="post">

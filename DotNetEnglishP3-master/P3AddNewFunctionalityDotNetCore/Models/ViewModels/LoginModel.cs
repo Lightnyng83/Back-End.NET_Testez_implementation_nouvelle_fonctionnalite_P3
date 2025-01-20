@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace P3AddNewFunctionalityDotNetCore.Models.ViewModels
+namespace P3Core.Models.ViewModels
 {
     public class LoginModel
     {

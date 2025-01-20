@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Localization;
 
-namespace P3AddNewFunctionalityDotNetCore.Models.Services
+namespace P3Core.Models.Services
 {
     public class LanguageService : ILanguageService
     {
@@ -22,20 +22,20 @@ namespace P3AddNewFunctionalityDotNetCore.Models.Services
             string culture;
             switch (language)
             {
-                case ("English"):
+                case "English":
                     culture = "en";
                     break;
-                case ("French"):
+                case "French":
                     culture = "fr";
                     break;
-                case ("Spanish"):
+                case "Spanish":
                     culture = "es";
                     break;
                 default:
                     culture = "en";
                     break;
             }
-            
+
             return culture;
         }
 

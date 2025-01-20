@@ -1,7 +1,7 @@
-﻿
-using P3AddNewFunctionalityDotNetCore.Models.Entities;
+﻿using P3Core.Models.Entities;
+using System.Collections.Generic;
 
-namespace P3AddNewFunctionalityDotNetCore.Models
+namespace P3Core.Models
 {
     public interface ICart
     {
@@ -14,5 +14,7 @@ namespace P3AddNewFunctionalityDotNetCore.Models
         double GetTotalValue();
 
         double GetAverageValue();
+
+        IEnumerable<CartLine> Lines { get; }
     }
 }

@@ -1,15 +1,15 @@
 ﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Mvc.Razor;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using P3AddNewFunctionalityDotNetCore.Models.Repositories;
-using P3AddNewFunctionalityDotNetCore.Models.Services;
-using P3AddNewFunctionalityDotNetCore.Models;
 using Microsoft.AspNetCore.Identity;
-using P3AddNewFunctionalityDotNetCore.Data;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using P3AddNewFunctionalityDotNetCore;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using P3Core;
+using P3Core.Data;
+using P3Core.Models;
+using P3Core.Models.Repositories;
+using P3Core.Models.Services;
 using System.Linq;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -32,6 +32,9 @@ builder.Services.AddMvc()
 
 builder.Services.AddDbContext<P3Referential>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("P3Referential")));
+
+builder.Services.AddDbContext<P3Referential>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("P3ReferentialMock")));
 
 builder.Services.AddDbContext<AppIdentityDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("P3Identity")));

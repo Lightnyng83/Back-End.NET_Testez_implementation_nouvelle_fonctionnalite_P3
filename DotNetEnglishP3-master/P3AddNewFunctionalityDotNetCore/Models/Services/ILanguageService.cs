@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 
-namespace P3AddNewFunctionalityDotNetCore.Models.Services
+namespace P3Core.Models.Services
 {
     public interface ILanguageService
     {

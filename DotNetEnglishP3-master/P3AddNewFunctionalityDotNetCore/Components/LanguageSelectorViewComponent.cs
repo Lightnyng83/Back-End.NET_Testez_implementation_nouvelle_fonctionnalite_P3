@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using P3AddNewFunctionalityDotNetCore.Models.Services;
+using P3Core.Models.Services;
 
-namespace P3AddNewFunctionalityDotNetCore.Components
+namespace P3Core.Components
 {
     public class LanguageSelectorViewComponent : ViewComponent
     {
