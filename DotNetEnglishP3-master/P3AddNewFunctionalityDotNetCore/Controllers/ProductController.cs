@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 using P3Core.Models.Services;
 using P3Core.Models.ViewModels;
 using System.Collections.Generic;
@@ -10,12 +11,13 @@ namespace P3Core.Controllers
     public class ProductController : Controller
     {
         private readonly IProductService _productService;
-        private readonly ILanguageService _languageService;
+        private readonly IStringLocalizer<ProductController> _localizer;
 
-        public ProductController(IProductService productService, ILanguageService languageService)
+
+        public ProductController(IProductService productService, IStringLocalizer<ProductController> localizer )
         {
             _productService = productService;
-            _languageService = languageService;
+            _localizer = localizer;
         }
 
         public IActionResult Index()
@@ -44,7 +46,7 @@ namespace P3Core.Controllers
 
             foreach (string error in modelErrors)
             {
-                ModelState.AddModelError("", error);
+                ModelState.AddModelError("", _localizer[error]);
             }
 
             if (ModelState.IsValid)

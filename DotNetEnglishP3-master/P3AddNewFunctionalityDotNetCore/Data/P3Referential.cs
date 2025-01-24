@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using P3Core.Models.Entities;
+using System.Collections.Generic;
 using System.Data;
 
 namespace P3Core.Data
@@ -51,6 +52,7 @@ namespace P3Core.Data
             });
         }
     }
+    
 }
 
 

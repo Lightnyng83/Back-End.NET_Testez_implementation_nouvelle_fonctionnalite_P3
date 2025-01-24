@@ -9,15 +9,15 @@ using System.Threading.Tasks;
 
 namespace P3Core.Models.Services
 {
-    public class ProductService : IProductService
+    public class ProductRepository : IProductService
     {
         private readonly ICart _cart;
         private readonly IProductRepository _productRepository;
         private readonly IOrderRepository _orderRepository;
-        private readonly IStringLocalizer<ProductService> _localizer;
+        private readonly IStringLocalizer<ProductRepository> _localizer;
 
-        public ProductService(ICart cart, IProductRepository productRepository,
-            IOrderRepository orderRepository, IStringLocalizer<ProductService> localizer)
+        public ProductRepository(ICart cart, IProductRepository productRepository,
+            IOrderRepository orderRepository, IStringLocalizer<ProductRepository> localizer)
         {
             _cart = cart;
             _productRepository = productRepository;
@@ -81,22 +81,14 @@ namespace P3Core.Models.Services
             return products;
         }
 
-
-
-
-
-
         public void UpdateProductQuantities()
         {
-            //Cart cart = (Cart)_cart;
+            Cart cart = (Cart)_cart;
             foreach (CartLine line in _cart.Lines)
             {
                 _productRepository.UpdateProductStocks(line.Product.Id, line.Quantity);
             }
         }
-
-
-
 
         // TODO this is an example method, remove it and perform model validation using data annotations
         public List<string> CheckProductModelErrors(ProductViewModel product)
@@ -129,12 +121,12 @@ namespace P3Core.Models.Services
 
             if (!int.TryParse(product.Stock, out int qt))
             {
-                modelErrors.Add(_localizer["StockNotAnInteger"]);
+                modelErrors.Add(_localizer["QuantityNotAnInteger"]);
             }
             else
             {
                 if (qt <= 0)
-                    modelErrors.Add(_localizer["StockNotGreaterThanZero"]);
+                    modelErrors.Add(_localizer["QuantityNotGreaterThanZero"]);
             }
 
             return modelErrors;

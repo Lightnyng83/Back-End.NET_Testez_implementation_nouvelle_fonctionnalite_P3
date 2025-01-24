@@ -20,8 +20,8 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddLocalization(opts => { opts.ResourcesPath = "Resources"; });
 builder.Services.AddSingleton<ICart, Cart>();
 builder.Services.AddSingleton<ILanguageService, LanguageService>();
-builder.Services.AddTransient<IProductService, ProductService>();
-builder.Services.AddTransient<IProductRepository, ProductRepository>();
+builder.Services.AddTransient<IProductService, P3Core.Models.Services.ProductRepository>();
+builder.Services.AddTransient<IProductRepository, P3Core.Models.Repositories.ProductRepository>();
 builder.Services.AddTransient<IOrderService, OrderService>();
 builder.Services.AddTransient<IOrderRepository, OrderRepository>();
 builder.Services.AddMemoryCache();
@@ -32,9 +32,6 @@ builder.Services.AddMvc()
 
 builder.Services.AddDbContext<P3Referential>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("P3Referential")));
-
-builder.Services.AddDbContext<P3Referential>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("P3ReferentialMock")));
 
 builder.Services.AddDbContext<AppIdentityDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("P3Identity")));
@@ -65,7 +62,7 @@ else
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
-var supportedCultures = new[] { "en-GB", "en-US", "en", "fr-FR", "fr" };
+var supportedCultures = new[] { "en-GB", "en-US", "en", "fr-FR", "fr", "es-ES", "es" };
 var localizationOptions = new RequestLocalizationOptions().SetDefaultCulture(supportedCultures[0])
     .AddSupportedCultures(supportedCultures.ToArray())
     .AddSupportedUICultures(supportedCultures);

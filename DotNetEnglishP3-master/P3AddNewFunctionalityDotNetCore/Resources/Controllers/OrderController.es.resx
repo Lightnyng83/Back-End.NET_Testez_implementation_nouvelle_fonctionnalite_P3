@@ -121,6 +121,6 @@
     <value>Lo sentimos, su cesta está vacía !</value>
   </data>
   <data name="ErrorMissingName" xml:space="preserve">
-    <value>Veuillez saisir votre nom</value>
+    <value>Introduzca un nombre</value>
   </data>
 </root>

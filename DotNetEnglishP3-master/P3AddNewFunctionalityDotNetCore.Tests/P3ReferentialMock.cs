@@ -6,7 +6,7 @@ using System.Data.Common;
 
 namespace P3Core.Tests
 {
-    internal class P3ReferentialMock : DbContext
+    public class P3ReferentialMock : DbContext
     {
         private DbConnection DbConnection { get; }
 

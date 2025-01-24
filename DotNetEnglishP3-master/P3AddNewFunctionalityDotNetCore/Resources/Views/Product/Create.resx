@@ -117,16 +117,25 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="LanguageEnglish" xml:space="preserve">
-    <value>Anglais</value>
+  <data name="CreatProductTitle" xml:space="preserve">
+    <value />
   </data>
-  <data name="LanguageFrench" xml:space="preserve">
-    <value>Français</value>
+  <data name="Details" xml:space="preserve">
+    <value />
   </data>
-  <data name="LanguageSpanish" xml:space="preserve">
-    <value>Espagnol</value>
+  <data name="Name" xml:space="preserve">
+    <value />
   </data>
-  <data name="MissingPrice" xml:space="preserve">
-    <value>Veuillez saisir un prix</value>
+  <data name="OK" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Price" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Stock" xml:space="preserve">
+    <value />
+  </data>
+  <data name="MissingName" xml:space="preserve">
+    <value>Please enter product name</value>
   </data>
 </root>

@@ -120,9 +120,6 @@
   <data name="CreatProductTitle" xml:space="preserve">
     <value>Création d'un produit</value>
   </data>
-  <data name="Description" xml:space="preserve">
-    <value>Description</value>
-  </data>
   <data name="Details" xml:space="preserve">
     <value>Details</value>
   </data>
@@ -137,5 +134,8 @@
   </data>
   <data name="Stock" xml:space="preserve">
     <value>Stock</value>
+  </data>
+  <data name="MissingName" xml:space="preserve">
+    <value>Veuillez entrer un nom pour le produit</value>
   </data>
 </root>

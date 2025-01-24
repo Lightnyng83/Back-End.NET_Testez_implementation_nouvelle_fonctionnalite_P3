@@ -1,13 +1,22 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Localization;
+using Microsoft.Extensions.Options;
 using Moq;
+using P3Core.Controllers;
+using P3Core.Data;
 using P3Core.Models;
 using P3Core.Models.Entities;
 using P3Core.Models.Repositories;
 using P3Core.Models.Services;
 using P3Core.Models.ViewModels;
+using P3Core.Resources.Models;
+using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using System.Globalization;
+using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -18,27 +27,29 @@ namespace P3Core.Tests
         #region ----- INITIALISATION DES CHAMPS -----
 
         private readonly Mock<ICart> _mockCart;
+        private ICart _Cart;
         private readonly Mock<IProductRepository> _mockProductRepository;
         private readonly Mock<IOrderRepository> _mockOrderRepository;
-        private readonly Mock<IStringLocalizer<ProductService>> _mockLocalizer;
-        private readonly ProductService _productService;
+        private readonly Mock<IStringLocalizer<Models.Services.ProductRepository>> _mockLocalizer;
+        private readonly Models.Services.ProductRepository _productService;
 
         #endregion----- INITIALISATION DES CHAMPS -----
-        
+
         #region ----- CONSTRUCTEUR -----
         public ProductServiceTests()
         {
             _mockCart = new Mock<ICart>();
             _mockProductRepository = new Mock<IProductRepository>();
             _mockOrderRepository = new Mock<IOrderRepository>();
-            _mockLocalizer = new Mock<IStringLocalizer<ProductService>>();
+            _mockLocalizer = new Mock<IStringLocalizer<Models.Services.ProductRepository>>();
 
-            _productService = new ProductService(
+            _productService = new Models.Services.ProductRepository(
                 _mockCart.Object,
                 _mockProductRepository.Object,
                 _mockOrderRepository.Object,
                 _mockLocalizer.Object
             );
+
         }
 
         #endregion
@@ -81,16 +92,12 @@ namespace P3Core.Tests
             Price = "10,5",
             Stock = "20"
         };
+
         #endregion
-
-        var options = new DbContextOptionsBuilder<P3Referential>()
-            .UseSqlite("DataSource=:memory:") // SQLite en mémoire
-            .Options;
-
 
         #region ----- TESTS UNITAIRES -----
 
-        #region ----- GetAllProductsViewModel_ReturnsMappedViewModels -----
+        #region ----- TU01 - GetAllProductsViewModel_ReturnsMappedViewModels -----
 
         [Fact]
         public void GetAllProductsViewModel_ReturnsMappedViewModels()
@@ -117,7 +124,7 @@ namespace P3Core.Tests
 
         #endregion
 
-        #region ----- GetAllProduct_ReturnListOfProducts -----
+        #region ----- TU02 -  GetAllProduct_ReturnListOfProducts -----
 
         [Fact]
         public void GetAllProduct_ReturnListOfProducts()
@@ -142,7 +149,7 @@ namespace P3Core.Tests
 
         #endregion
 
-        #region ----- GetProductById_ReturnOneProductFromId -----
+        #region ----- TU03 -  GetProductById_ReturnOneProductFromId -----
         [Fact]
         public void GetProductById_ReturnOneProductFromId()
         {
@@ -166,7 +173,7 @@ namespace P3Core.Tests
         }
         #endregion
 
-        #region ----- GetProductByIdViewModel_ReturnsCorrectProduct -----
+        #region ----- TU04 -  GetProductByIdViewModel_ReturnsCorrectProduct -----
 
         [Fact]
         public void GetProductByIdViewModel_ReturnsCorrectProduct()
@@ -178,7 +185,7 @@ namespace P3Core.Tests
                 produit2
 
             };
-            
+
             _mockProductRepository.Setup(repo => repo.GetAllProducts()).Returns(products);
 
             // Act
@@ -191,7 +198,7 @@ namespace P3Core.Tests
 
         #endregion
 
-        #region ----- SaveProduct_CallsRepositoryWithCorrectEntity -----
+        #region ----- TU05 -  SaveProduct_CallsRepositoryWithCorrectEntity -----
 
         [Fact]
         public void SaveProduct_CallsRepositoryWithCorrectEntity()
@@ -213,7 +220,7 @@ namespace P3Core.Tests
 
         #endregion
 
-        #region ----- CheckProductModelErrors_WithoutErrors / CheckProductModelErrors_WithErrors -----
+        #region ----- TU06/TU07 -  CheckProductModelErrors_WithoutErrors / CheckProductModelErrors_WithErrors -----
 
         [Fact]
         public void CheckProductModelErrors_WithoutErrors()
@@ -245,7 +252,7 @@ namespace P3Core.Tests
 
         #endregion
 
-        #region ----- DeleteProduct_RemovesProductFromCartAndRepository -----
+        #region ----- TU08 -  DeleteProduct_RemovesProductFromCartAndRepository -----
 
         [Fact]
         public void DeleteProduct_RemovesProductFromCartAndRepository()
@@ -274,7 +281,7 @@ namespace P3Core.Tests
 
         #endregion
 
-        #region ----- MapToViewModel_TranformEntityToViewModel -----
+        #region ----- TU09 -  MapToViewModel_TranformEntityToViewModel -----
 
         [Fact]
         public void MapToViewModel_TranformEntityToViewModel()
@@ -322,7 +329,7 @@ namespace P3Core.Tests
 
         #endregion
 
-        #region ----- MapToProductEntity_TransformProductViewModelToProductEntity -----
+        #region ----- TU10 -  MapToProductEntity_TransformProductViewModelToProductEntity -----
 
         [Fact]
         public void MapToProductEntity_TransformProductViewModelToProductEntity()
@@ -355,31 +362,7 @@ namespace P3Core.Tests
 
         #endregion
 
-        #region ----- GetProductById_ReturnProductFromId -----
-
-        [Fact]
-        public void GetProduct_ReturnProductFromId()
-        {
-            var product = new List<Product>
-            {
-                produit1,
-                produit2
-            };
-
-            _mockProductRepository.Setup(repo => repo.GetAllProducts()).Returns(product);
-
-            var result = _productService.GetProductById(1);
-
-            Assert.NotNull(result);
-            Assert.Equal("Product 1", result.Name);
-            Assert.Equal(10.5, result.Price);
-            Assert.Equal(100, result.Quantity);
-            Assert.Equal("Desc1", result.Description);
-        }
-
-        #endregion
-
-        #region ----- GetProduct_ReturnListOfProduct -----
+        #region ----- TU11 -   GetProduct_ReturnListOfProduct -----
 
         [Fact]
         public async Task GetProduct_ReturnsListOfProducts()
@@ -402,55 +385,261 @@ namespace P3Core.Tests
 
         #endregion
 
-        #region ----- UpdateProductQuantities_ShouldReturnGoodStock -----
+        #endregion
 
-        [Fact]
-        public void UpdateProductQuantities_CallsUpdateProductStocksForEachCartLine()
+
+    }
+
+    public class ProductIntegrationTestFixture : IDisposable, IClassFixture<ProductIntegrationTestFixture>
+    {
+        #region ----- INITIALISATION DES CHAMPS ----
+
+        public P3Referential Context { get; private set; }
+        public Models.Repositories.ProductRepository ProductService { get; private set; }
+        private readonly Models.Services.ProductRepository _productService;
+        private readonly ProductController _productController;
+        private readonly IStringLocalizer<ProductController> _localizer;
+
+        private ICart _Cart;
+
+        #endregion
+
+        #region ----- VARIABLES DE TESTS ----
+
+        Product produit = new Product
         {
-            // Arrange
-            var cartLines = new List<CartLine>
-            {
-                new CartLine
-                {
-                    Product = new Product { Id = 1, Name = "Product 1", Quantity = 10 },
-                    Quantity = 5
-                },
-                new CartLine
-                {
-                    Product = new Product { Id = 2, Name = "Product 2", Quantity = 20 },
-                    Quantity = 3
-                }
-            };
+            Name = "Product 1",
+            Price = 10.5,
+            Quantity = 100,
+            Description = "Desc1",
+            Details = "Details1"
+        };
 
-            // Simuler le panier (_cart)
-            var mockCart = new Mock<ICart>();
-            mockCart.Setup(cart => cart.Lines).Returns(cartLines);
+        Product produit2 = new Product
+        {
+            Name = "Product 2",
+            Price = 12.5,
+            Quantity = 200,
+            Description = "Desc2",
+            Details = "Details2"
+        };
 
-            // Injecter le mock dans ProductService
-            var mockProductRepository = new Mock<IProductRepository>();
-            var productService = new ProductService(
-                mockCart.Object,
-                mockProductRepository.Object,
-                null,
-                null  
-            );
+        #endregion
 
-            // Act : Appeler la méthode testée
-            productService.UpdateProductQuantities();
+        #region ----- "CONSTRUCTEUR" ----
 
-            // Assert : Vérifier que UpdateProductStocks est appelé avec les bons arguments
-            mockProductRepository.Verify(repo => repo.UpdateProductStocks(1, 5), Times.Once);
-            mockProductRepository.Verify(repo => repo.UpdateProductStocks(2, 3), Times.Once);
+        public ProductIntegrationTestFixture()
+        {
+            _Cart = new Cart();
+            var options = new DbContextOptionsBuilder<P3Referential>()
+               .UseInMemoryDatabase($"P3ReferentialMock_{Guid.NewGuid()}")  // Base unique pour chaque test
+               .Options;
+
+            Context = new P3Referential(options, new ConfigurationBuilder().Build());
+            ProductService = new Models.Repositories.ProductRepository(Context);
+            _productService = new Models.Services.ProductRepository(_Cart, ProductService, null, null);
+            _productController = new ProductController(_productService, _localizer);
+            InitializeTestData().Wait();
         }
 
 
         #endregion
 
+        #region ----- PRIVATES METHODS ----
+
+        private async Task InitializeTestData()
+        {
+            await Context.Product.AddRangeAsync(produit, produit2);
+            await Context.SaveChangesAsync();
+        }
+
+        public void Dispose()
+        {
+            Context?.Dispose();
+        }
+
         #endregion
 
-        #region ----- TESTS D'INTEGRATION -----
+        #region ----- TESTS D'INTEGRATION ----
+
+        #region ----- TI01 - GetAllProduct_ReturnListOfProducts_IntegrationTest -----
+
+        [Fact]
+        public void GetAllProduct_ReturnListOfProducts_IntegrationTest()
+        {
+            var result = _productService.GetAllProducts();
+
+            Assert.NotNull(result);
+            Assert.Equal(2, result.Count());
+            Assert.Equal("Product 1", result.First().Name);
+            Assert.Equal(12.5, result.Last().Price);
+            Assert.Equal("100", result.First().Quantity.ToString());
+            Dispose();
+        }
+
+        #endregion
+
+        #region ----- TI02 -  GetProductById_ReturnOneProductFromId_IntegrationTest -----
+        [Fact]
+        public async Task GetProduct_ReturnOneProductFromId_IntegrationTest()
+        {
+            var result = await _productService.GetProduct(1);
+
+            Assert.NotNull(result);
+            Assert.Equal("Product 1", result.Name);
+            Assert.Equal(10.5, result.Price);
+            Assert.Equal(100, result.Quantity);
+            Assert.Equal("Desc1", result.Description);
+            Assert.Equal("Details1", result.Details);
+            Assert.Equal(1, result.Id);
+            Dispose();
+
+        }
+        #endregion
+
+        #region ----- TI03 -  UpdateProductQuantities_ShouldReturnGoodStock_IntegrationTest -----
+        /// <summary>
+        /// Test d'intégration pour la méthode UpdateProductQuantities
+        /// Appel de UpdateProductStocks pour chaque ligne du panier
+        /// Utilisation des valeur injecté en Bdd avec les variables statiques produit et produit2
+        /// </summary>
+        [Fact]
+        public void UpdateProductQuantities_CallsUpdateProductStocksForEachCartLine_IntegrationTest()
+        {
+            _Cart.AddItem(produit, 5);
+            _Cart.AddItem(produit2, 5);
 
 
+            _productService.UpdateProductQuantities();
+
+
+            Assert.Equal(95, produit.Quantity);
+            Assert.Equal(195, produit2.Quantity);
+            Assert.Equal("Product 1", produit.Name);
+            Assert.Equal("Product 2", produit2.Name);
+            Dispose();
+        }
+
+
+        #endregion
+
+        #region ----- TI04 -  SaveProduct_CallsRepositoryWithCorrectEntity_IntegrationTest -----
+
+        [Fact]
+        public void SaveProduct_CallsRepositoryWithCorrectEntity_IntegrationTest()
+        {
+            // Arrange
+            var product3 = new ProductViewModel
+            {
+                Id = 3,
+                Name = "Product 3",
+                Price = "15,5",
+                Stock = "50",
+                Description = "Desc3",
+                Details = "Details3"
+            };
+            // Act
+            _productService.SaveProduct(product3);
+            // Assert
+            var result = Context.Product.FirstOrDefault(p => p.Name == "Product 3");
+            var products = Context.Product.ToList();
+            Assert.Equal(3, products.Count);
+            Assert.NotNull(result);
+            Assert.Equal("Product 3", result.Name);
+            Assert.Equal(15.5, result.Price);
+            Assert.Equal(50, result.Quantity);
+            Assert.Equal("Desc3", result.Description);
+            Assert.Equal("Details3", result.Details);
+            Dispose();
+        }
+        #endregion
+
+        #region ----- TI05 -  DeleteProduct_RemovesProductFromRepository_IntegrationTest -----
+
+        [Fact]
+        public void DeleteProduct_RemovesProductFromRepository_IntegrationTest()
+        {
+            // Arrange
+            _Cart.AddItem(produit, 5);
+
+            // Act
+            _productService.DeleteProduct(1);
+            // Assert
+            var result = Context.Product.FirstOrDefault(p => p.Id == 1);
+            var products = Context.Product.ToList();
+            Assert.Equal(1, products.Count);
+            Assert.Null(result);
+            Dispose();
+        }
+
+        #endregion
+
+        #region ----- TI06 -  CreateProduct_CreatesProductInDatabase_IntegrationTestPass -----
+
+        [Fact]
+        public void CreateProduct_CreatesProductInDatabase_IntegrationTestPass()
+        {
+            // Arrange
+            var product = new ProductViewModel
+            {
+                Name = "Product 3",
+                Price = "15,5",
+                Stock = "50",
+                Description = "Desc3",
+                Details = "Details3"
+            };
+            // Act
+            _productController.Create(product);
+            // Assert
+            var result = Context.Product.FirstOrDefault(p => p.Name == "Product 3");
+            var products = Context.Product.ToList();
+            Assert.Equal(3, products.Count);
+            Assert.NotNull(result);
+            Assert.Equal("Product 3", result.Name);
+            Assert.Equal(15.5, result.Price);
+            Assert.Equal(50, result.Quantity);
+            Assert.Equal("Desc3", result.Description);
+            Assert.Equal("Details3", result.Details);
+            Dispose();
+        }
+
+
+        #endregion
+
+        #region ----- TI07 -  CreateProduct_CreatesProductInDatabase_IntegrationTestNotPass -----
+
+        [Fact]
+        public void CreateProduct_CreatesProductInDatabase_IntegrationTestNotPass()
+        {
+            // Arrange
+            var product = new ProductViewModel
+            {
+                Name = "Product 3",
+                Price = "",
+                Stock = "50",
+                Description = "Desc3",
+                Details = "Details3"
+            };
+            // Act
+            try
+            {
+                _productController.Create(product);
+
+            }
+            catch
+            {
+                Assert.False(false);
+            }
+            // Assert
+            var result = Context.Product.FirstOrDefault(p => p.Name == "Product 3");
+            var products = Context.Product.ToList();
+            Assert.Equal(2, products.Count);
+            Assert.Null(result);
+            Dispose();
+        }
+
+
+        #endregion
 
         #endregion
     }
