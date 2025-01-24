@@ -1,10 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using P3AddNewFunctionalityDotNetCore.Data;
-using P3AddNewFunctionalityDotNetCore.Models.Entities;
+using P3Core.Data;
+using P3Core.Models.Entities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace P3AddNewFunctionalityDotNetCore.Models.Repositories
+namespace P3Core.Models.Repositories
 {
     public class OrderRepository : IOrderRepository
     {

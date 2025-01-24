@@ -1,24 +1,23 @@
-﻿using System;
+﻿using Microsoft.Extensions.Localization;
+using P3Core.Models.Entities;
+using P3Core.Models.Repositories;
+using P3Core.Models.ViewModels;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Localization;
-using P3AddNewFunctionalityDotNetCore.Models.Entities;
-using P3AddNewFunctionalityDotNetCore.Models.Repositories;
-using P3AddNewFunctionalityDotNetCore.Models.ViewModels;
 
-namespace P3AddNewFunctionalityDotNetCore.Models.Services
+namespace P3Core.Models.Services
 {
-    public class ProductService : IProductService
+    public class ProductRepository : IProductService
     {
         private readonly ICart _cart;
         private readonly IProductRepository _productRepository;
         private readonly IOrderRepository _orderRepository;
-        private readonly IStringLocalizer<ProductService> _localizer;
+        private readonly IStringLocalizer<ProductRepository> _localizer;
 
-        public ProductService(ICart cart, IProductRepository productRepository,
-            IOrderRepository orderRepository, IStringLocalizer<ProductService> localizer)
+        public ProductRepository(ICart cart, IProductRepository productRepository,
+            IOrderRepository orderRepository, IStringLocalizer<ProductRepository> localizer)
         {
             _cart = cart;
             _productRepository = productRepository;
@@ -27,14 +26,14 @@ namespace P3AddNewFunctionalityDotNetCore.Models.Services
         }
         public List<ProductViewModel> GetAllProductsViewModel()
         {
-             
+
             IEnumerable<Product> productEntities = GetAllProducts();
             return MapToViewModel(productEntities);
         }
 
         private static List<ProductViewModel> MapToViewModel(IEnumerable<Product> productEntities)
         {
-            List <ProductViewModel> products = new List<ProductViewModel>();
+            List<ProductViewModel> products = new List<ProductViewModel>();
             foreach (Product product in productEntities)
             {
                 products.Add(new ProductViewModel
@@ -81,10 +80,11 @@ namespace P3AddNewFunctionalityDotNetCore.Models.Services
             var products = await _productRepository.GetProduct();
             return products;
         }
+
         public void UpdateProductQuantities()
         {
-            Cart cart = (Cart) _cart;
-            foreach (CartLine line in cart.Lines)
+            Cart cart = (Cart)_cart;
+            foreach (CartLine line in _cart.Lines)
             {
                 _productRepository.UpdateProductStocks(line.Product.Id, line.Quantity);
             }
@@ -104,7 +104,7 @@ namespace P3AddNewFunctionalityDotNetCore.Models.Services
                 modelErrors.Add(_localizer["MissingPrice"]);
             }
 
-            if (!Double.TryParse(product.Price, out double pc))
+            if (!double.TryParse(product.Price, out double pc))
             {
                 modelErrors.Add(_localizer["PriceNotANumber"]);
             }
@@ -121,12 +121,12 @@ namespace P3AddNewFunctionalityDotNetCore.Models.Services
 
             if (!int.TryParse(product.Stock, out int qt))
             {
-                modelErrors.Add(_localizer["StockNotAnInteger"]);
+                modelErrors.Add(_localizer["QuantityNotAnInteger"]);
             }
             else
             {
                 if (qt <= 0)
-                    modelErrors.Add(_localizer["StockNotGreaterThanZero"]);
+                    modelErrors.Add(_localizer["QuantityNotGreaterThanZero"]);
             }
 
             return modelErrors;
@@ -144,7 +144,7 @@ namespace P3AddNewFunctionalityDotNetCore.Models.Services
             {
                 Name = product.Name,
                 Price = double.Parse(product.Price),
-                Quantity = Int32.Parse(product.Stock),
+                Quantity = int.Parse(product.Stock),
                 Description = product.Description,
                 Details = product.Details
             };

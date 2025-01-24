@@ -1,13 +1,12 @@
-﻿using System;
-using System.Resources;
+﻿using System.Globalization;
 using System.Reflection;
-using System.Globalization;
+using System.Resources;
 
-namespace P3AddNewFunctionalityDotNetCore.Resources.Models.Services
+namespace P3Core.Resources.Models
 {
     public static class ProductService
     {
-        private static ResourceManager resourceManager = new ResourceManager("P3.Resources.Models.Services.ProductService", Assembly.GetExecutingAssembly());
+        private static ResourceManager resourceManager = new ResourceManager("P3.Resources.Models.ProductService", Assembly.GetExecutingAssembly());
         private static CultureInfo resourceCulture;
 
         public static string MissingName
@@ -29,6 +28,12 @@ namespace P3AddNewFunctionalityDotNetCore.Resources.Models.Services
             get
             {
                 return resourceManager.GetString("MissingStock", resourceCulture);
+            }
+        }public static string MissingQuantity
+        {
+            get
+            {
+                return resourceManager.GetString("MissingQuantity", resourceCulture);
             }
         }
         public static string PriceNotANumber

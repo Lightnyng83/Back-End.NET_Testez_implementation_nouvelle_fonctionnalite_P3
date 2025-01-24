@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -117,16 +117,28 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="LanguageEnglish" xml:space="preserve">
-    <value>Anglais</value>
-  </data>
-  <data name="LanguageFrench" xml:space="preserve">
-    <value>Français</value>
-  </data>
-  <data name="LanguageSpanish" xml:space="preserve">
-    <value>Espagnol</value>
+  <data name="MissingName" xml:space="preserve">
+    <value>Veuillez saisir un nom pour le produit</value>
   </data>
   <data name="MissingPrice" xml:space="preserve">
-    <value>Veuillez saisir un prix</value>
+    <value>Veuillez saisir un prix pour le produit</value>
+  </data>
+  <data name="MissingStock" xml:space="preserve">
+    <value>Veuillez saisir le stock pour le produit</value>
+  </data>
+  <data name="PriceNotANumber" xml:space="preserve">
+    <value>Veuillez saisir un chiffre pour le prix du produit</value>
+  </data>
+  <data name="PriceNotGreaterThanZero" xml:space="preserve">
+    <value>Le prix doit être supérieur à zéro</value>
+  </data>
+  <data name="QuantityNotAnInteger" xml:space="preserve">
+    <value>Le stock doit être un chiffre</value>
+  </data>
+  <data name="QuantityNotGreaterThanZero" xml:space="preserve">
+    <value>Le stock est insuffissant</value>
+  </data>
+  <data name="MissingQuantity" xml:space="preserve">
+    <value>Veuillez saisir la quantité</value>
   </data>
 </root>

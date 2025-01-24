@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using P3AddNewFunctionalityDotNetCore.Models.Services;
-using P3AddNewFunctionalityDotNetCore.Models.ViewModels;
+using P3Core.Models.Services;
+using P3Core.Models.ViewModels;
 
-namespace P3AddNewFunctionalityDotNetCore.Controllers
+namespace P3Core.Controllers
 {
     public class LanguageController : Controller
     {

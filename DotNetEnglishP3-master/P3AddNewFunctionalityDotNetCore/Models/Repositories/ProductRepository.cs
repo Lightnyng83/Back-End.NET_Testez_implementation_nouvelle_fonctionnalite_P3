@@ -1,11 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using P3AddNewFunctionalityDotNetCore.Data;
-using P3AddNewFunctionalityDotNetCore.Models.Entities;
+using P3Core.Data;
+using P3Core.Models.Entities;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace P3AddNewFunctionalityDotNetCore.Models.Repositories
+namespace P3Core.Models.Repositories
 {
     public class ProductRepository : IProductRepository
     {
@@ -13,7 +13,7 @@ namespace P3AddNewFunctionalityDotNetCore.Models.Repositories
 
         public ProductRepository(P3Referential context)
         {
-                _context = context;
+            _context = context;
         }
         public async Task<Product> GetProduct(int id)
         {
@@ -31,7 +31,7 @@ namespace P3AddNewFunctionalityDotNetCore.Models.Repositories
         /// </summary>
         public IEnumerable<Product> GetAllProducts()
         {
-            IEnumerable<Product> productEntities= _context.Product.Where(p => p.Id > 0);
+            IEnumerable<Product> productEntities = _context.Product.Where(p => p.Id > 0);
             return productEntities.ToList();
         }
 
@@ -49,21 +49,19 @@ namespace P3AddNewFunctionalityDotNetCore.Models.Repositories
             {
                 _context.Product.Update(product);
                 _context.SaveChanges();
-            }   
+            }
         }
 
         public void SaveProduct(Product product)
         {
             if (product != null)
             {
-               
-
                 _context.Product.Add(product);
                 _context.SaveChanges();
             }
         }
 
-  
+
 
         public void DeleteProduct(int id)
         {

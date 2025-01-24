@@ -1,15 +1,15 @@
 ﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Mvc.Razor;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using P3AddNewFunctionalityDotNetCore.Models.Repositories;
-using P3AddNewFunctionalityDotNetCore.Models.Services;
-using P3AddNewFunctionalityDotNetCore.Models;
 using Microsoft.AspNetCore.Identity;
-using P3AddNewFunctionalityDotNetCore.Data;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using P3AddNewFunctionalityDotNetCore;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using P3Core;
+using P3Core.Data;
+using P3Core.Models;
+using P3Core.Models.Repositories;
+using P3Core.Models.Services;
 using System.Linq;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,8 +20,8 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddLocalization(opts => { opts.ResourcesPath = "Resources"; });
 builder.Services.AddSingleton<ICart, Cart>();
 builder.Services.AddSingleton<ILanguageService, LanguageService>();
-builder.Services.AddTransient<IProductService, ProductService>();
-builder.Services.AddTransient<IProductRepository, ProductRepository>();
+builder.Services.AddTransient<IProductService, P3Core.Models.Services.ProductRepository>();
+builder.Services.AddTransient<IProductRepository, P3Core.Models.Repositories.ProductRepository>();
 builder.Services.AddTransient<IOrderService, OrderService>();
 builder.Services.AddTransient<IOrderRepository, OrderRepository>();
 builder.Services.AddMemoryCache();
@@ -62,7 +62,7 @@ else
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
-var supportedCultures = new[] { "en-GB", "en-US", "en", "fr-FR", "fr" };
+var supportedCultures = new[] { "en-GB", "en-US", "en", "fr-FR", "fr", "es-ES", "es" };
 var localizationOptions = new RequestLocalizationOptions().SetDefaultCulture(supportedCultures[0])
     .AddSupportedCultures(supportedCultures.ToArray())
     .AddSupportedUICultures(supportedCultures);

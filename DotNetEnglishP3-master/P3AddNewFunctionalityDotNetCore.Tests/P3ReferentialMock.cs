@@ -2,19 +2,18 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using P3Core.Models.Entities;
-using System.Collections.Generic;
-using System.Data;
+using System.Data.Common;
 
-namespace P3Core.Data
+namespace P3Core.Tests
 {
-    public class P3Referential : DbContext
+    public class P3ReferentialMock : DbContext
     {
-        private IDbConnection DbConnection { get; }
+        private DbConnection DbConnection { get; }
 
-        public P3Referential(DbContextOptions<P3Referential> options, IConfiguration config)
+        public P3ReferentialMock(DbContextOptions<P3ReferentialMock> options, IConfiguration config)
             : base(options)
         {
-            DbConnection = new SqlConnection(config.GetConnectionString("P3Referential"));
+            DbConnection = new SqlConnection(config.GetConnectionString("P3ReferentialMock"));
         }
 
         public virtual DbSet<Order> Order { get; set; }
@@ -52,7 +51,4 @@ namespace P3Core.Data
             });
         }
     }
-    
 }
-
-

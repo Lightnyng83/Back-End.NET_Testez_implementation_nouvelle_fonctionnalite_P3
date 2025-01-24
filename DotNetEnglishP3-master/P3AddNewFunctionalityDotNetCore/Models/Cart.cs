@@ -1,8 +1,8 @@
-﻿using P3AddNewFunctionalityDotNetCore.Models.Entities;
+﻿using P3Core.Models.Entities;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace P3AddNewFunctionalityDotNetCore.Models
+namespace P3Core.Models
 {
     public class Cart : ICart
     {
@@ -41,7 +41,11 @@ namespace P3AddNewFunctionalityDotNetCore.Models
 
         public void Clear() => _cartLines.Clear();
 
-        public IEnumerable<CartLine> Lines => _cartLines;
+        public IEnumerable<CartLine> Lines
+        {
+            get => _cartLines;
+            
+        }
     }
 
     public class CartLine

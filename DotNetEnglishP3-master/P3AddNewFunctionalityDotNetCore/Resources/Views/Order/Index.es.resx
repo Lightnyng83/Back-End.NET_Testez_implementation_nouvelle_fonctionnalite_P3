@@ -130,7 +130,7 @@
     <value>País</value>
   </data>
   <data name="EnterDetails" xml:space="preserve">
-    <value>Introduzca sus datos y le enviaremos su pedido inmediatamente.</value>
+    <value>Introduzca sus datos y le enviaremos su pedido inmediatamente!</value>
   </data>
   <data name="Location" xml:space="preserve">
     <value>Ubicación</value>

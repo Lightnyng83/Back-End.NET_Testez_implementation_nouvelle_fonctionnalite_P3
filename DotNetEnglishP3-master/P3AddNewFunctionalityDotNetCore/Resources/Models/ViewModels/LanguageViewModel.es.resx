@@ -126,4 +126,7 @@
   <data name="LanguageSpanish" xml:space="preserve">
     <value>Español</value>
   </data>
+  <data name="MissingPrice" xml:space="preserve">
+    <value>Introduzca un precio</value>
+  </data>
 </root>

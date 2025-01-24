@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace P3AddNewFunctionalityDotNetCore.Models.Entities
+namespace P3Core.Models.Entities
 {
     public partial class Product
     {

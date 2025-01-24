@@ -1,9 +1,8 @@
-﻿using System;
-using System.Resources;
+﻿using System.Globalization;
 using System.Reflection;
-using System.Globalization;
+using System.Resources;
 
-namespace P3.Resources.Models
+namespace P3Core.Resources.Models
 {
     public static class Order
     {

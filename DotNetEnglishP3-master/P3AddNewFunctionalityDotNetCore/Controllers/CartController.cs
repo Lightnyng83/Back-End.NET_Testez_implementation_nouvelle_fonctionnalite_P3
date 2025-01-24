@@ -1,10 +1,10 @@
-﻿using System.Linq;
-using Microsoft.AspNetCore.Mvc;
-using P3AddNewFunctionalityDotNetCore.Models;
-using P3AddNewFunctionalityDotNetCore.Models.Entities;
-using P3AddNewFunctionalityDotNetCore.Models.Services;
+﻿using Microsoft.AspNetCore.Mvc;
+using P3Core.Models;
+using P3Core.Models.Entities;
+using P3Core.Models.Services;
+using System.Linq;
 
-namespace P3AddNewFunctionalityDotNetCore.Controllers
+namespace P3Core.Controllers
 {
     public class CartController : Controller
     {
