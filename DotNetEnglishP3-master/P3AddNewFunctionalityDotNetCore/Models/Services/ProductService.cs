@@ -106,7 +106,7 @@ namespace P3Core.Models.Services
 
             if (!double.TryParse(product.Price, out double pc))
             {
-                modelErrors.Add(_localizer["PriceNotANumber"]);
+              modelErrors.Add(_localizer["PriceNotANumber"]);
             }
             else
             {
